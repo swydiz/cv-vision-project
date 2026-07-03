@@ -8,8 +8,8 @@ import os
 # Пути
 TRAIN_JSON = 'data/raw/annotations/instances_train2017.json'
 VAL_JSON = 'data/raw/annotations/instances_val2017.json'
-TRAIN_IMG_DIR = 'data/raw/train2017/'
-VAL_IMG_DIR = 'data/raw/val2017/'
+TRAIN_IMG_DIR = 'data/raw/images/train2017/'
+VAL_IMG_DIR = 'data/raw/images/val2017/'
 OUTPUT_TRAIN = 'data/raw/annotations/instances_train2017_cleaned.json'
 OUTPUT_VAL = 'data/raw/annotations/instances_val2017_cleaned.json'
 

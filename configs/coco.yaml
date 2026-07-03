@@ -1,12 +1,7 @@
-# Пути к данным (относительно корня проекта)
-path: ./data/  # корневая папка с данными
-train: processed/yolo_labels/train2017  # YOLO-аннотации для обучения
-val: processed/yolo_labels/val2017      # YOLO-аннотации для валидации
-
-# Количество классов
+path: data_small/
+train: images/train
+val: images/val
 nc: 80
-
-# Названия классов 
 names:
   0: person
   1: bicycle
