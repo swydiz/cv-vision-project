@@ -12,16 +12,8 @@ from tqdm import tqdm
 from configs.config import *
 from src.models.faster_rcnn import get_model
 
-
-# =========================
-# SPEED SETTINGS
-# =========================
 torch.backends.cudnn.benchmark = True
 
-
-# =========================
-# DATASET (FAST VERSION)
-# =========================
 class FastDataset(Dataset):
     def __init__(self, image_dir, label_dir, max_images=None):
         self.image_dir = image_dir
@@ -43,11 +35,9 @@ class FastDataset(Dataset):
         img_name = self.images[idx]
         img_path = os.path.join(self.image_dir, img_name)
 
-        # 🔥 FAST: cv2 вместо PIL
         image = cv2.imread(img_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        # 🔥 resize = ОЧЕНЬ ВАЖНО ДЛЯ СКОРОСТИ
         image = cv2.resize(image, (512, 512))
 
         h, w = 512, 512
@@ -65,7 +55,7 @@ class FastDataset(Dataset):
                 for line in f:
                     cls, xc, yc, bw, bh = map(float, line.split())
 
-                    cls = int(cls) + 1  # Faster R-CNN fix
+                    cls = int(cls) + 1 
 
                     xc *= w
                     yc *= h
@@ -104,9 +94,6 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
-# =========================
-# TRAIN
-# =========================
 def train():
 
     os.makedirs(SAVE_DIR, exist_ok=True)
@@ -123,7 +110,7 @@ def train():
         train_dataset,
         batch_size=BATCH_SIZE,
         shuffle=True,
-        num_workers=0,        # 🔥 FAST on Windows (важно!)
+        num_workers=0,       
         pin_memory=False,
         collate_fn=collate_fn
     )

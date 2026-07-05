@@ -17,7 +17,7 @@ def main():
         exist_ok=True
     )
 
-    print("✅ YOLOv8s обучена!")
+    print("YOLOv8s обучена!")
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()

@@ -1,14 +1,19 @@
-import torch
-from torchvision.models import detr_resnet50, DETR_ResNet50_Weights
+from torchvision.models.detection import (
+    fasterrcnn_resnet50_fpn,
+    FasterRCNN_ResNet50_FPN_Weights
+)
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
 
 def get_model(num_classes):
+    weights = FasterRCNN_ResNet50_FPN_Weights.DEFAULT
+    model = fasterrcnn_resnet50_fpn(weights=weights)
 
-    weights = DETR_ResNet50_Weights.DEFAULT
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
 
-    model = detr_resnet50(
-        weights=weights,
-        num_classes=num_classes
+    model.roi_heads.box_predictor = FastRCNNPredictor(
+        in_features,
+        num_classes
     )
 
     return model

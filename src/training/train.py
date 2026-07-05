@@ -1,7 +1,3 @@
-"""
-Обучение YOLO модели.
-"""
-
 from ultralytics import YOLO
 import yaml
 
@@ -11,13 +7,10 @@ def load_config():
         return yaml.safe_load(f)
 
 def train_yolo(model_name='yolov8n.pt'):
-    # Загружаем конфиг
     params = load_config()
     
-    # Загружаем модель
     model = YOLO(model_name)
 
-    # Запускаем обучение
     model.train(**params)  
 
 if __name__ == "__main__":

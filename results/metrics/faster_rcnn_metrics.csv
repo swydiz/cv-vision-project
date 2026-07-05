@@ -1,0 +1,12 @@
+Metric,Value
+Precision,0.32525951557093424
+Recall,0.5193370165745856
+F1-score,0.39999999999999997
+Mean IoU,0.7182004044273
+TP,188
+FP,390
+FN,174
+Model,Faster R-CNN
+Confidence,0.3
+IOU_Threshold,0.5
+Num_Images,50

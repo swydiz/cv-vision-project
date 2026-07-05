@@ -15,9 +15,6 @@ from configs.config import *
 from src.models.ssd import get_model
 
 
-# ------------------------
-# TRANSFORMS (PyTorch way)
-# ------------------------
 def get_transform(train=True):
     transforms = []
 
@@ -25,15 +22,11 @@ def get_transform(train=True):
     transforms.append(T.ToDtype(torch.float32, scale=True))
 
     if train:
-        # легкая аугментация (как рекомендуют для SSD)
         transforms.append(T.RandomHorizontalFlip(0.5))
 
     return T.Compose(transforms)
 
 
-# ------------------------
-# DATASET (torchvision style)
-# ------------------------
 class DetectionDataset(Dataset):
     def __init__(self, image_dir, label_dir, max_images=None, transforms=None):
         self.image_dir = image_dir
@@ -72,7 +65,7 @@ class DetectionDataset(Dataset):
                 for line in f:
                     cls, xc, yc, bw, bh = map(float, line.split())
 
-                    cls = int(cls) + 1  # background shift
+                    cls = int(cls) + 1 
 
                     xc *= w
                     yc *= h
@@ -112,9 +105,6 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
-# ------------------------
-# TRAIN
-# ------------------------
 def train():
 
     device = DEVICE
@@ -139,9 +129,6 @@ def train():
 
     model = get_model(NUM_CLASSES).to(device)
 
-    # ------------------------
-    # OPTIMIZER (SSD standard)
-    # ------------------------
     optimizer = SGD(
         model.parameters(),
         lr=0.002,
@@ -149,9 +136,6 @@ def train():
         weight_decay=0.0005
     )
 
-    # ------------------------
-    # SCHEDULER (IMPORTANT for SSD)
-    # ------------------------
     lr_scheduler = StepLR(
         optimizer,
         step_size=15,

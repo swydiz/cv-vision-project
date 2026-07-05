@@ -1,0 +1,12 @@
+Metric,Value
+Precision,0.6631944444444444
+Recall,0.5276243093922652
+F1-score,0.5876923076923077
+Mean IoU,0.8640654134442568
+TP,191
+FP,97
+FN,171
+Model,YOLOv8n
+Confidence,0.25
+IOU_Threshold,0.5
+Num_Images,50

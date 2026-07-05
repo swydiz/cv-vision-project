@@ -1,0 +1,12 @@
+Metric,Value
+Precision,0.39747634069400634
+Recall,0.34806629834254144
+F1-score,0.37113402061855666
+Mean IoU,0.7040433211301452
+TP,126
+FP,191
+FN,236
+Model,SSD
+Confidence,0.2
+IOU_Threshold,0.5
+Num_Images,50

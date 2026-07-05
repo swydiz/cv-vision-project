@@ -1,46 +1,33 @@
-"""
-Конвертация COCO JSON в YOLO-формат
-Использует очищенные JSON-файлы
-"""
-
 import json
 import os
 from pathlib import Path
 
-# Очищенные JSON-файлы (вход)
 TRAIN_JSON = 'data/raw/annotations/instances_train2017_cleaned.json'
 VAL_JSON = 'data/raw/annotations/instances_val2017_cleaned.json'
 
-# Папки для сохранения YOLO-аннотаций
 OUTPUT_TRAIN = 'data/processed/yolo_labels/train2017/'
 OUTPUT_VAL = 'data/processed/yolo_labels/val2017/'
 
 def convert_coco_to_yolo(json_path, output_dir):
     """Конвертирует COCO JSON в YOLO TXT файлы"""
     
-    # Создаем папку
     os.makedirs(output_dir, exist_ok=True)
     
-    # Загружаем JSON
     with open(json_path, 'r') as f:
         data = json.load(f)
     
-    # Словари для быстрого доступа
     image_id_to_info = {img['id']: img for img in data['images']}
     image_id_to_ann = {}
     for ann in data['annotations']:
         image_id_to_ann.setdefault(ann['image_id'], []).append(ann)
     
-    # Маппинг ID категорий в YOLO (0-79)
     category_ids = {cat['id']: idx for idx, cat in enumerate(data['categories'])}
     
-    # Конвертация
     for image_id, anns in image_id_to_ann.items():
         img_info = image_id_to_info[image_id]
         img_width = img_info['width']
         img_height = img_info['height']
         
-        # Имя файла
         image_name = Path(img_info['file_name']).stem
         txt_path = os.path.join(output_dir, f"{image_name}.txt")
         
@@ -53,7 +40,6 @@ def convert_coco_to_yolo(json_path, output_dir):
                 class_id = category_ids[cat_id]
                 x, y, w, h = ann['bbox']
                 
-                # Нормализация координат
                 x_center = (x + w/2) / img_width
                 y_center = (y + h/2) / img_height
                 width_norm = w / img_width
@@ -61,7 +47,6 @@ def convert_coco_to_yolo(json_path, output_dir):
                 
                 f.write(f"{class_id} {x_center:.6f} {y_center:.6f} {width_norm:.6f} {height_norm:.6f}\n")
     
-    # Краткая статистика
     print(f"{output_dir}")
     print(f"Изображений: {len(image_id_to_ann)}")
     print(f"Аннотаций: {len(data['annotations'])}")

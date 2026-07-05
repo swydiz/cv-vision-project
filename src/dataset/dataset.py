@@ -24,7 +24,6 @@ class YOLODataset(Dataset):
             if f.endswith((".jpg", ".png", ".jpeg"))
         ])
 
-        # ✔ ограничиваем датасет
         if max_images is not None:
             random.seed(seed)
             self.images = random.sample(self.images, max_images)
@@ -42,7 +41,6 @@ class YOLODataset(Dataset):
 
         img = Image.open(img_path).convert("RGB")
 
-        # ✔ PIL → numpy → tensor (СТАБИЛЬНО)
         img = np.array(img)
         img = torch.from_numpy(img).float().permute(2, 0, 1) / 255.0
 
